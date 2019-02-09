@@ -1,4 +1,4 @@
-package main
+package domain
 
 // Task .
 type Task struct {
