@@ -1,0 +1,38 @@
+{{define "index"}}
+{{$username := .UserName}}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='UTF-8'>
+  <title>Task Index</title>
+  <link href="/static/style.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+{{template "header" .}}
+<div id="vueimg">
+<img src=/static/img/vue.png height="100" width="100">
+</div>
+<div id="page">
+
+<span id="add">
+<input v-on:click="addpage" type="button" id="add" value="Task ADD">
+</span>
+<span id="history">
+<input v-on:click="historypage" type="button" id="history" value="Task History">
+</span>
+{{range .Tasks}}
+<div id="task{{.ID}}">
+<h5> {{.Task}} <input v-on:click="task" type="button" id="{{.ID}}" value="編集" class="taskbtn"></h5>
+</div>
+{{end}}
+<div align="center">
+<img src=/static/img/gopher.png width="163" height="222">
+</div>
+</div>
+<br>
+{{ template "footer"}}
+</body>
+</html>
+
+{{end}}

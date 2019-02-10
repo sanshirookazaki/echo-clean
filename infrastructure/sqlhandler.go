@@ -36,9 +36,9 @@ func (handler *SQLHandler) Execute(statement string, args ...interface{}) (datab
 func (handler *SQLHandler) Query(statement string, args ...interface{}) (database.Row, error) {
 	rows, err := handler.Conn.Query(statement, args...)
 	if err != nil {
-		return new(SqlRow), err
+		return new(SQLRow), err
 	}
-	row := new(SqlRow)
+	row := new(SQLRow)
 	row.Rows = rows
 	return row, nil
 }

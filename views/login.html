@@ -1,0 +1,29 @@
+{{ define "login" }} 
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+    <meta charset="UTF-8">
+    <title>ログイン</title>
+    <link href="/static/style.css" rel="stylesheet">
+</head>
+<body>
+<div id="loginpage">
+<h2>{{.}}</h2>
+<form action="/login" method="POST">
+    <p>ユーザーID</p>
+    <p><input type="text" name="username" id="username"></p>
+    <p>パスワード</p>
+    <p><input type="password" name="password"></p>
+    <p><input type="submit" value="ログイン" id="submit"></p>
+</form>
+
+<form action="/login/new" method="GET">
+    <p><input type="submit" value="新規ユーザー" id="newuser"></p>
+</form>
+<img src=../static/img/gopher3.png>
+</div>
+</body>
+</html>
+
+
+{{end}}

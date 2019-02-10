@@ -1,0 +1,33 @@
+{{define "edit"}} 
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='UTF-8'>
+  <title>edit</title>
+  <link href="/static/style.css" rel="stylesheet">
+</head>
+<body>
+{{template "header"}}
+{{$username := .Username}}
+<div id="page">
+{{with index .Tasks 0}}
+<h3> {{.Task}}  </h3>
+<form action="/{{$username}}/task/{{.ID}}/edit" method="POST">
+{{end}}
+  <div id="content"></div>
+  EDIT TASK: <input type="text" id="task" name="task"><br>
+  <button id="js-submit" type="submit">Submit</button>
+
+<input type="button" id="back" value="Top">
+</div>
+{{template "footer"}}
+<script type="text/javascript">
+
+   document.getElementById("back").onclick = function(){
+    window.location.href = "/{{$username}}/index";
+   };
+</script>
+</form>
+</body>
+</html>
+{{end}}

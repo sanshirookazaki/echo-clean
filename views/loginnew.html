@@ -1,0 +1,24 @@
+{{ define "loginnew" }}
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+    <meta charset="UTF-8">
+    <link href="/static/style.css" rel="stylesheet">
+    <title>ログインnew</title>
+</head>
+<body>
+{{template "header"}}
+<div id="page">
+</h3>{{.}}</h3>
+<form action="/login/new" method="POST">
+    <p>ユーザーID</p>
+    <p><input type="text" name="username" id="username"></p>
+    <p>パスワード</p>
+    <p><input type="password" name="password"></p>
+    <p><input type="submit" value="登録" id="submit"></p>
+</form>
+</div>
+{{template "footer"}}
+</body>
+</html>
+{{end}}

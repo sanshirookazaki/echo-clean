@@ -1,0 +1,50 @@
+{{define "task"}}
+{{ $username := .Username}}
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset='UTF-8'>
+    <title>Task Page</title>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <link href="/static/style.css" rel="stylesheet">
+    </head>
+    <body>
+    {{template "header"}}
+    <div id="page">
+    {{ range .Tasks }}
+    <h2>{{.Task}}</h2>
+
+    <input type="button" id="back" value="Top">
+    <form method="POST" action="/{{$username}}/task/delete">
+    <button id="{{.ID}}" name="id" type="submit" value="{{.ID}}">Delete</button>
+    </form>
+    <form method="POST" action="/{{$username}}/task/finish">
+    <button type="submit" id="{{.ID}}" name="id" value="{{.ID}}">Finish</button>
+    </form>
+    <button type="submit" id="edit" name="id" value="{{.ID}}">Edit</button>
+    {{end}}
+    </div>
+    {{template "footer"}}
+<script type="text/javascript">
+
+   document.getElementById("back").onclick = function(){
+    window.location.href = "/{{.Username}}/index";
+   };
+
+  {{ range .Tasks}}
+   document.getElementById("{{.ID}}").oncddlick = function(){
+    window.location.href = "/{{$username}}/index";
+   };
+   document.getElementById("edit").onclick = function(){
+    window.location.href = "/{{$username}}/task/{{.ID}}/edit";
+   };
+  {{end}} 
+
+</script>
+</body>
+</html>
+
+
+
+{{end}}

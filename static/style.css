@@ -1,0 +1,171 @@
+#vueimg{
+position: sticky;
+position: -webkit-sticky;
+position: fixed;
+right: 10px;
+bottom: 50px;
+}
+
+#page{
+  background-color: #00FFFF;
+  margin: 100px;
+}
+
+#back{
+  display: inline-block;
+  max-width: 180px;
+  text-align: left;
+  font-size: 16px;
+  color: #9ec34b;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: .4s;
+}
+
+#submit {
+  display: inline-block;
+  max-width: 180px;
+  text-align: left;
+  font-size: 16px;
+  color: #9ec34b;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: .4s;
+}
+
+#newuser {
+  display: inline-block;
+  max-width: 180px;
+  text-align: left;
+  font-size: 16px;
+  color: #9ec34b;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: .4s;
+}
+
+button {
+  display: inline-block;
+  max-width: 180px;
+  text-align: left;
+  font-size: 16px;
+  color: #9ec34b;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: .4s;
+}
+
+#loginpage{
+  background-color: #00FFFF;
+  margin-top: 100px;
+  margin-bottom: 50px;
+  margin-left: 300px;
+  margin-right: 300px;
+  text-align: center;
+}
+
+h5 {
+  font-size: 20px;
+  text-align: center;
+}
+
+#add{
+  display: inline-block;
+  max-width: 180px;
+  text-align: left;
+  /*border: 2px solid #9ec34b;*/
+  font-size: 16px;
+  color: #9ec34b;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: .4s;
+}
+
+#history{
+  display: inline-block;
+  max-width: 180px;
+  text-align: left;
+  /*border: 2px solid #9ec34b;*/
+  font-size: 16px;
+  color: #9ec34b;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: .4s;
+}
+
+#edit{
+  text-align: center;
+}
+
+#logout{
+  display: inline-block;
+  max-width: 180px;
+  text-align: left;
+  float: right;
+  margin-top: 25px;
+  /*border: 2px solid #9ec34b;*/
+  font-size: 16px;
+  color: #9ec34b;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: .4s;
+}
+
+.taskbtn{
+  display: inline-block;
+  text-align: left;
+  /*border: 2px solid #9ec34b;*/
+  font-size: 16px;
+  color: #9ec34b;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: .4s;
+  max-width: 180px;
+}
+
+header {
+	background-color: #47B39D; 
+	height: 100px; 
+  color: white; 
+  margin-left: 100px;
+  margin-right: 100px;
+}
+ 
+header p {
+	line-height: 100px; 
+	float: left; 
+	font-size: 30px; 
+}
+
+header h3 {
+	float: right; 
+	line-height: 100px; 
+	font-size: 30px; 
+}
+
+footer {
+	background-color: #47B39D; 
+	height: 100px; 
+  margin: 100px;
+}
+
+footer p {
+  color: black;
+  text-align: center;
+}

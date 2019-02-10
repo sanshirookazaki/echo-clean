@@ -1,0 +1,41 @@
+{{ define "add" }} 
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset='UTF-8'>
+  <title>post</title>
+  <link href="/static/style.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+
+{{template "header"}}
+<div id="page">
+<form action="/{{.Username}}/task/add" method="POST">
+  <div id="content"></div>
+  TASK : <input type="text" id="task" name="task"><br>
+  
+  <button id="js-submit" type="submit">Submit</button>
+<span id="top">
+<input v-on:click="toppage" type="button" id="back" value="Top">
+</span>
+</div>
+{{template "footer"}}
+<script type="text/javascript">
+   
+  var top = new Vue({
+    el: '#top',
+    methods: {
+      toppage: function() {
+        window.location.href = "/{{.Username}}/index";
+      }
+    }
+  })
+
+</script>
+</form>
+</body>
+</html>
+
+{{end}}

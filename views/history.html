@@ -1,0 +1,37 @@
+{{ define "history"}} 
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset='UTF-8'>
+  <title>History</title>
+  <link href="/static/style.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+{{template "header"}}
+<div id="page">
+{{range .Tasks}}
+<h3>{{.Task}}</h3>
+{{end}}
+<span id="top">
+<input v-on:click="toppage" type="button" id="back" value="Top">
+</span>
+</div>
+{{template "footer"}}
+<script type="text/javascript">
+
+ var top = new Vue({
+   el: '#top',
+   methods: {
+     toppage: function() {
+       window.location.href = "/{{.Username}}/index";
+     }
+   }
+ })
+
+</script>
+</body>
+</html>
+
+{{end}}
