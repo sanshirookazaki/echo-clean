@@ -48,7 +48,9 @@ func main() {
 		}
 	}
 	userController := controllers.NewUserController(infrastructure.NewSQLHandler())
+	authController := controllers.NewAuthController(infrastructure.NewSQLHandler())
 	e.Static("/static", "static")
 	e.GET("/", userController.Index)
+	e.GET("/login", authController.Login)
 	e.Logger.Fatal(e.Start(":1323"))
 }

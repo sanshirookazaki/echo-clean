@@ -32,6 +32,39 @@
 </div>
 <br>
 {{ template "footer"}}
+<script >
+
+  var add = new Vue({
+    el: '#add',
+    methods: {
+      addpage: function() {
+        window.location.href = "/{{.UserName}}/task/add";
+      }
+    }
+  })
+
+  var history = new Vue({
+    el: '#history',
+    methods: {
+      historypage: function() {
+        window.location.href = "/{{.UserName}}/task/history";
+      }
+    }
+  })
+
+  {{range .Tasks}}
+    var task = new Vue({
+      el: '#task{{.ID}}',
+      methods: {
+        task: function() {
+          window.location.href = "/{{$username}}/task/{{.ID}}";
+        }
+      }
+    })
+  {{end}}
+
+
+</script>
 </body>
 </html>
 
