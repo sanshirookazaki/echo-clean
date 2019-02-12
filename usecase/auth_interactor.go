@@ -4,6 +4,11 @@ type AuthInteractor struct {
 	AuthRepository AuthRepository
 }
 
+func (interactor *AuthInteractor) GetUserID(username, password string) int {
+	userid := interactor.AuthRepository.GetUserID(username, password)
+	return userid
+}
+
 func (interactor *AuthInteractor) GetPassword(username string) string {
 	password := interactor.AuthRepository.GetPassword(username)
 	return password

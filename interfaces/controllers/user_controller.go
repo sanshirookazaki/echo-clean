@@ -3,6 +3,7 @@ package controllers
 import (
 	"net/http"
 
+	session "github.com/ipfans/echo-session"
 	"github.com/labstack/echo"
 	"github.com/sanshirookazaki/echo-clean/domain"
 	"github.com/sanshirookazaki/echo-clean/interfaces/database"
@@ -10,27 +11,33 @@ import (
 )
 
 type UserController struct {
-	Interactor usecase.UserInteractor
+	UserInteractor usecase.UserInteractor
+	TaskInteractor usecase.TaskInteractor
 }
 
 func NewUserController(SQLHandler database.SQLHandler) *UserController {
 	return &UserController{
-		Interactor: usecase.UserInteractor{
+		UserInteractor: usecase.UserInteractor{
 			UserRepository: &database.UserRepository{
+				SQLHandler: SQLHandler,
+			},
+		},
+		TaskInteractor: usecase.TaskInteractor{
+			TaskRepository: &database.TaskRepository{
 				SQLHandler: SQLHandler,
 			},
 		},
 	}
 }
-
-func (controller *UserController) Index(c echo.Context) error {
-	//u := domain.User{}
-	//c.Bind(&u)
-	tasks := controller.Interactor.GetTaskAll(1)
+func (controller *UserController) UserIndex(c echo.Context) error {
+	session := session.Default(c)
+	userid := session.Get("userid")
+	tasks := controller.TaskInteractor.GetTaskAll(userid.(int))
+	username, password := controller.UserInteractor.GetUserNamePassword(userid.(int))
 	u := domain.User{
-		UserID:   1,
-		UserName: "test",
-		Password: "test",
+		UserID:   userid.(int),
+		UserName: username,
+		Password: password,
 		Tasks:    tasks,
 	}
 	return c.Render(http.StatusOK, "index", u)

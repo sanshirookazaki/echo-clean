@@ -28,19 +28,19 @@ func (repo *UserRepository) GetUserID(username, password string) int {
 	return userid
 }
 
-func (repo *UserRepository) GetTaskAll(userid int) domain.Tasks {
-	rows, err := repo.Query("SELECT * FROM tasks WHERE Status = 0 and userid = " + strconv.Itoa(userid))
+func (repo *UserRepository) GetUserNamePassword(userid int) (username, password string) {
+	rows, err := repo.Query("SELECT username, password FROM users WHERE userid =" + strconv.Itoa(userid))
 	if err != nil {
 		panic(err.Error())
 	}
 	defer rows.Close()
-	var ts domain.Tasks
-	var t domain.Task
+	var u domain.User
 	for rows.Next() {
-		if err := rows.Scan(&t.ID, &t.UserID, &t.Task, &t.Status); err != nil {
+		if err := rows.Scan(&u.UserName, &u.Password); err != nil {
 			panic(err.Error())
 		}
-		ts = append(ts, t)
+		username = u.UserName
+		password = u.Password
 	}
-	return ts
+	return username, password
 }

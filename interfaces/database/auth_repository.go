@@ -6,6 +6,23 @@ type AuthRepository struct {
 	SQLHandler
 }
 
+func (repo *AuthRepository) GetUserID(username, password string) int {
+	rows, err := repo.Query("SELECT userid FROM users WHERE username = \"" + username + "\" and password = \"" + password + "\"")
+	if err != nil {
+		panic(err.Error())
+	}
+	defer rows.Close()
+	var userid int
+	var u domain.User
+	for rows.Next() {
+		if err := rows.Scan(&u.UserID); err != nil {
+			panic(err.Error())
+		}
+		userid = u.UserID
+	}
+	return userid
+}
+
 func (repo *AuthRepository) GetPassword(username string) string {
 	rows, err := repo.Query("SELECT password FROM users WHERE username = \"" + username + "\"")
 	if err != nil {
