@@ -54,7 +54,7 @@ func Init() {
 	e.Static("/static", "static")
 	//e.GET("/", authController.Index)
 	e.GET("/login", authController.Login)
-	e.POST("/logout", authController.LoginCheck)
+	e.POST("/login", authController.LoginCheck)
 	//e.POST("/logout", authController.Logout)
 	//e.GET("/login/new", authController.LoginNewUser)
 	//e.POST("/login/new", authController.LoginAddUser)
