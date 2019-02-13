@@ -1,5 +1,5 @@
 {{define "task"}}
-{{ $username := .Username}}
+{{ $username := .UserName}}
 <!DOCTYPE html>
 
 <html>
@@ -29,7 +29,7 @@
 <script type="text/javascript">
 
    document.getElementById("back").onclick = function(){
-    window.location.href = "/{{.Username}}/index";
+    window.location.href = "/{{$username}}/index";
    };
 
   {{ range .Tasks}}

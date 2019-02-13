@@ -21,6 +21,10 @@ func (interactor *TaskInteractor) TaskHistory(userid int) (tasks domain.Tasks) {
 	return tasks
 }
 
+func (interactor *TaskInteractor) AddTask(userid int, task string) {
+	interactor.TaskRepository.AddTask(userid, task)
+}
+
 func (interactor *TaskInteractor) DeleteTask(id int) {
 	interactor.TaskRepository.DeleteTask(id)
 }

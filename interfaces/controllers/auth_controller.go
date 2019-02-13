@@ -63,3 +63,30 @@ func (controller *AuthController) LoginCheck(c echo.Context) error {
 		return c.Redirect(http.StatusFound, "login")
 	}
 }
+
+func (controller *AuthController) LoginNewUser(c echo.Context) error {
+	return c.Render(http.StatusFound, "loginnew", "ユーザー名とパスワードを入力して下さい。")
+}
+
+func (controller *AuthController) LoginAddUser(c echo.Context) error {
+	loginform := domain.LoginForm{
+		UserName: c.FormValue("username"),
+		Password: c.FormValue("password"),
+	}
+	username := html.EscapeString(loginform.UserName)
+	password := html.EscapeString(loginform.Password)
+
+	session := session.Default(c)
+	loginname := controller.Interactor.UserUniqueCheck(username)
+	if username == loginname {
+		return c.Render(http.StatusFound, "loginnew", "このユーザー名は既に使われてます。")
+	} else if username == "" || password == "" {
+		return c.Render(http.StatusFound, "loginnew", "ユーザー名とパスワードに空白は使えません。")
+	} else {
+		controller.Interactor.UserAdd(username, password)
+		userid := controller.Interactor.GetUserID(username, password)
+		session.Set("userid", userid)
+		session.Save()
+		return c.Redirect(http.StatusFound, "/"+username+"/index")
+	}
+}

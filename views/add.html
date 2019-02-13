@@ -12,7 +12,7 @@
 
 {{template "header"}}
 <div id="page">
-<form action="/{{.Username}}/task/add" method="POST">
+<form action="/{{.UserName}}/task/add" method="POST">
   <div id="content"></div>
   TASK : <input type="text" id="task" name="task"><br>
   
@@ -28,7 +28,7 @@
     el: '#top',
     methods: {
       toppage: function() {
-        window.location.href = "/{{.Username}}/index";
+        window.location.href = "/{{.UserName}}/index";
       }
     }
   })

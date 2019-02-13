@@ -58,6 +58,13 @@ func (repo *TaskRepository) TaskHistory(userid int) (tasks domain.Tasks) {
 	return tasks
 }
 
+func (repo *TaskRepository) AddTask(userid int, task string) {
+	_, err := repo.Query("INSERT INTO tasks (Userid, Task, Status) VALUES ( " + strconv.Itoa(userid) + ", \"" + task + "\", 0)")
+	if err != nil {
+		panic(err.Error)
+	}
+}
+
 func (repo *TaskRepository) DeleteTask(id int) {
 	_, err := repo.Query("DELETE FROM tasks WHERE ID =" + strconv.Itoa(id))
 	if err != nil {
