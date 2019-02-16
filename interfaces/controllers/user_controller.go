@@ -153,7 +153,7 @@ func (controller *UserController) UserEditTask(c echo.Context) error {
 func (controller *UserController) UserEditTaskPost(c echo.Context) error {
 	session := session.Default(c)
 	userid := session.Get("userid")
-	id, _ := strconv.Atoi(c.FormValue("id"))
+	id, _ := strconv.Atoi(c.Param("id"))
 	task := c.FormValue("task")
 	controller.TaskInteractor.EditTask(task, id)
 	username, password := controller.UserInteractor.GetUserNamePassword(userid.(int))
