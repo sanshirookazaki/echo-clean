@@ -23,16 +23,6 @@ func NewSQLHandler() *SQLHandler {
 	return sqlHandler
 }
 
-func (handler *SQLHandler) Execute(statement string, args ...interface{}) (database.Result, error) {
-	res := SQLResult{}
-	result, err := handler.Conn.Exec(statement, args...)
-	if err != nil {
-		return res, err
-	}
-	res.Result = result
-	return res, nil
-}
-
 func (handler *SQLHandler) Query(statement string, args ...interface{}) (database.Row, error) {
 	rows, err := handler.Conn.Query(statement, args...)
 	if err != nil {
@@ -41,18 +31,6 @@ func (handler *SQLHandler) Query(statement string, args ...interface{}) (databas
 	row := new(SQLRow)
 	row.Rows = rows
 	return row, nil
-}
-
-type SQLResult struct {
-	Result sql.Result
-}
-
-func (r SQLResult) LastInsertId() (int64, error) {
-	return r.Result.LastInsertId()
-}
-
-func (r SQLResult) RowsAffected() (int64, error) {
-	return r.Result.RowsAffected()
 }
 
 type SQLRow struct {
