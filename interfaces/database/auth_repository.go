@@ -1,6 +1,10 @@
 package database
 
-import "github.com/sanshirookazaki/echo-clean/domain"
+import (
+	"golang.org/x/crypto/bcrypt"
+
+	"github.com/sanshirookazaki/echo-clean/domain"
+)
 
 type AuthRepository struct {
 	SQLHandler
@@ -41,6 +45,10 @@ func (repo *AuthRepository) GetPassword(username string) string {
 }
 
 func (repo *AuthRepository) GetUserName(password string) string {
+	password, err := PasswordHash(password)
+	if err != nil {
+		panic(err.Error())
+	}
 	rows, err := repo.Query("SELECT username FROM users WHERE password = \"" + password + "\"")
 	if err != nil {
 		panic(err.Error())
@@ -75,8 +83,24 @@ func (repo *AuthRepository) UserUniqueCheck(username string) string {
 }
 
 func (repo *AuthRepository) UserAdd(username, password string) {
-	_, err := repo.Query("INSERT INTO users (username, password) VALUES ( \"" + username + "\" , \"" + password + "\" )")
+	password, err := PasswordHash(password)
 	if err != nil {
 		panic(err.Error())
 	}
+	_, err = repo.Query("INSERT INTO users (username, password) VALUES ( \"" + username + "\" , \"" + password + "\" )")
+	if err != nil {
+		panic(err.Error())
+	}
+}
+
+func PasswordHash(password string) (string, error) {
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return "", err
+	}
+	return string(hash), err
+}
+
+func PasswordVerify(hash, password string) error {
+	return bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 }
