@@ -45,10 +45,6 @@ func (repo *AuthRepository) GetPassword(username string) string {
 }
 
 func (repo *AuthRepository) GetUserName(password string) string {
-	password, err := PasswordHash(password)
-	if err != nil {
-		panic(err.Error())
-	}
 	rows, err := repo.Query("SELECT username FROM users WHERE password = \"" + password + "\"")
 	if err != nil {
 		panic(err.Error())

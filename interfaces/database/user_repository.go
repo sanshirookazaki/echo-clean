@@ -12,6 +12,10 @@ type UserRepository struct {
 }
 
 func (repo *UserRepository) GetUserID(username, password string) int {
+	password, err := PasswordHash(password)
+	if err != nil {
+		panic(err.Error())
+	}
 	rows, err := repo.Query("SELECT userid FROM users WHERE username = \"" + username + "\" and password = \"" + password + "\"")
 	if err != nil {
 		panic(err.Error())

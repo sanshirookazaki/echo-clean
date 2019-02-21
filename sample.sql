@@ -3,11 +3,11 @@ use task;
 
 CREATE TABLE tasks ( id int NOT NULL AUTO_INCREMENT,
                      userid int NOT NULL,
-                     task char(25) NOT NULL, 
+                     task varchar(25) NOT NULL, 
                      status int NOT NULL, 
                      primary key(id));
 
 CREATE TABLE users ( userid int NOT NULL AUTO_INCREMENT,
-                     username char(20) NOT NULL,
-                     password char(10) NOT NULL,
+                     username varchar(20) NOT NULL,
+                     password varchar(255) NOT NULL,
                      primary key(userid, username));
