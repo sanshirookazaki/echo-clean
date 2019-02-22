@@ -56,7 +56,6 @@ func (controller *AuthController) LoginCheck(c echo.Context) error {
 	err := database.PasswordVerify(hashLoginPassword, password)
 	if err != nil {
 		userid := controller.Interactor.GetUserID(username, hashLoginPassword)
-		//tasks := models.GetTaskAll(userid)
 		session.Set("userid", userid)
 		session.Set("password", password)
 		session.Save()
