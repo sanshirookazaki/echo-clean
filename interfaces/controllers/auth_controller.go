@@ -52,11 +52,13 @@ func (controller *AuthController) LoginCheck(c echo.Context) error {
 	}
 
 	session := session.Default(c)
-	loginpass := controller.Interactor.GetPassword(username)
-	if password == loginpass {
-		userid := controller.Interactor.GetUserID(username, password)
+	hashLoginPassword := controller.Interactor.GetPassword(username)
+	err := database.PasswordVerify(hashLoginPassword, password)
+	if err != nil {
+		userid := controller.Interactor.GetUserID(username, hashLoginPassword)
 		//tasks := models.GetTaskAll(userid)
 		session.Set("userid", userid)
+		session.Set("password", password)
 		session.Save()
 		return c.Redirect(http.StatusFound, "/"+username+"/index")
 	} else {
@@ -75,7 +77,6 @@ func (controller *AuthController) LoginAddUser(c echo.Context) error {
 	}
 	username := html.EscapeString(loginform.UserName)
 	password := html.EscapeString(loginform.Password)
-
 	session := session.Default(c)
 	loginname := controller.Interactor.UserUniqueCheck(username)
 	if username == loginname {
