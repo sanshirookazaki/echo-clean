@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -10,7 +9,6 @@ import (
 	"github.com/sanshirookazaki/echo-clean/domain"
 	"github.com/sanshirookazaki/echo-clean/interfaces/database"
 	"github.com/sanshirookazaki/echo-clean/usecase"
-	validator "gopkg.in/go-playground/validator.v9"
 )
 
 type UserController struct {
@@ -80,9 +78,6 @@ func (controller *UserController) UserAddTaskPost(c echo.Context) error {
 	session := session.Default(c)
 	userid := session.Get("userid")
 	task := c.FormValue("task")
-	validate := validator.New()
-	errs := validate.Var(task, "required")
-	fmt.Println(errs)
 	controller.TaskInteractor.AddTask(userid.(int), task)
 	username, password := controller.UserInteractor.GetUserNamePassword(userid.(int))
 	tasks := controller.TaskInteractor.GetTaskAll(userid.(int))
