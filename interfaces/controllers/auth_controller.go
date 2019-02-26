@@ -25,6 +25,10 @@ func NewAuthController(SQLHandler database.SQLHandler) *AuthController {
 	}
 }
 
+func Login(w http.ResponseWriter, r *http.Request) {
+	return Render(http.StatusOK, "login", "come on!")
+}
+
 func (controller *AuthController) Login(c echo.Context) error {
 	return c.Render(http.StatusOK, "login", "ログインしてください")
 }
