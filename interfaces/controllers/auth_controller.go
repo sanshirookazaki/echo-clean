@@ -2,13 +2,13 @@ package controllers
 
 import (
 	"html"
-	"html/template"
 	"net/http"
 
 	session "github.com/ipfans/echo-session"
 	"github.com/labstack/echo"
 	"github.com/sanshirookazaki/echo-clean/domain"
 	"github.com/sanshirookazaki/echo-clean/interfaces/database"
+	"github.com/sanshirookazaki/echo-clean/template"
 	"github.com/sanshirookazaki/echo-clean/usecase"
 )
 
@@ -27,8 +27,8 @@ func NewAuthController(SQLHandler database.SQLHandler) *AuthController {
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
-	t := template.Must(template.ParseFiles("views/login.html"))
-	t.Execute(w, "come on")
+	t := template.NewTemplate("views/*.html")
+	t.Render(w, "login", "commeon")
 }
 
 func (controller *AuthController) Login(c echo.Context) error {
