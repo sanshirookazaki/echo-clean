@@ -3,10 +3,9 @@ package infrastructure
 import (
 	"html/template"
 	"io"
-	"log"
 	"net/http"
-	"time"
 
+	"github.com/codegangsta/negroni"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
 	session "github.com/ipfans/echo-session"
@@ -70,18 +69,21 @@ func Init() {
 	e.POST("/:username/task/:id/edit", userController.UserEditTaskPost)
 	e.POST("/:username/task/finish", userController.UserFinishTask)
 	e.GET("/:username/task/history", userController.UserTaskHistory)
-	e.Logger.Fatal(e.Start(":1323"))
+	//e.Logger.Fatal(e.Start(":1323"))
 
 	r := mux.NewRouter()
-	r.HundleFunc("/login", controllers.Login).Methods("GET")
+	r.HandleFunc("/login", controllers.Login).Methods("GET")
 
-	srv := &http.Server{
-		Handler: r,
-		Addr:    "127.0.0.1:8000",
-		// Good practice: enforce timeouts for servers you create!
-		WriteTimeout: 15 * time.Second,
-		ReadTimeout:  15 * time.Second,
-	}
+	//srv := &http.Server{
+	//	Handler: r,
+	//	Addr:    "127.0.0.1:8000",
+	//	// Good practice: enforce timeouts for servers you create!
+	//	WriteTimeout: 15 * time.Second,
+	//	ReadTimeout:  15 * time.Second,
+	//}
 
-	log.Fatal(srv.ListenAndServe())
+	//log.Fatal(srv.ListenAndServe())
+	n := negroni.Classic()
+	n.UseHandler(r)
+	n.Run(":3000")
 }

@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"html"
+	"html/template"
 	"net/http"
 
 	session "github.com/ipfans/echo-session"
@@ -26,7 +27,8 @@ func NewAuthController(SQLHandler database.SQLHandler) *AuthController {
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
-	return Render(http.StatusOK, "login", "come on!")
+	t := template.Must(template.ParseFiles("views/login.html"))
+	t.Execute(w, "come on")
 }
 
 func (controller *AuthController) Login(c echo.Context) error {
