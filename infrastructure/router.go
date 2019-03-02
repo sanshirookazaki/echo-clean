@@ -54,8 +54,8 @@ func Init() {
 	store.MaxAge(86400)
 	e.Use(session.Sessions("ESESSION", store))
 	e.Static("/static", "static")
-	e.GET("/", authController.Login)
-	e.GET("/login", authController.Login)
+	//e.GET("/", authController.Login)
+	//e.GET("/login", authController.Login)
 	e.POST("/login", authController.LoginCheck)
 	e.POST("/logout", authController.Logout)
 	e.GET("/login/new", authController.LoginNewUser)
@@ -72,7 +72,7 @@ func Init() {
 	//e.Logger.Fatal(e.Start(":1323"))
 
 	r := mux.NewRouter()
-	r.HandleFunc("/login", controllers.Login).Methods("GET")
+	r.HandleFunc("/login", authController.Login).Methods("GET")
 
 	//srv := &http.Server{
 	//	Handler: r,

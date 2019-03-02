@@ -26,14 +26,14 @@ func NewAuthController(SQLHandler database.SQLHandler) *AuthController {
 	}
 }
 
-func Login(w http.ResponseWriter, r *http.Request) {
+func (controller *AuthController) Login(w http.ResponseWriter, r *http.Request) {
 	t := template.NewTemplate("views/*.html")
 	t.Render(w, "login", "commeon")
 }
 
-func (controller *AuthController) Login(c echo.Context) error {
-	return c.Render(http.StatusOK, "login", "ログインしてください")
-}
+//func (controller *AuthController) Login(c echo.Context) error {
+//	return c.Render(http.StatusOK, "login", "ログインしてください")
+//}
 
 func (controller *AuthController) Logout(c echo.Context) error {
 	session := session.Default(c)
