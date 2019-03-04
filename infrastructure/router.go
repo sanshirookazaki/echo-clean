@@ -4,10 +4,12 @@ import (
 	"html/template"
 	"io"
 	"net/http"
+	"os"
 
 	"github.com/codegangsta/negroni"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
+	"github.com/gorilla/sessions"
 	session "github.com/ipfans/echo-session"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
@@ -71,6 +73,7 @@ func Init() {
 	e.GET("/:username/task/history", userController.UserTaskHistory)
 	//e.Logger.Fatal(e.Start(":1323"))
 
+	var store = sessions.NewCookieStore([]byte(os.Getenv("SESSION_KEY")))
 	r := mux.NewRouter()
 	r.HandleFunc("/login", authController.Login).Methods("GET")
 
