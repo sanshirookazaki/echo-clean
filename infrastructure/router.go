@@ -4,13 +4,13 @@ import (
 	"html/template"
 	"io"
 	"net/http"
-	"os"
 
 	"github.com/codegangsta/negroni"
 	_ "github.com/go-sql-driver/mysql"
+
+	"github.com/goincremental/negroni-sessions"
+	"github.com/goincremental/negroni-sessions/cookiestore"
 	"github.com/gorilla/mux"
-	"github.com/gorilla/sessions"
-	session "github.com/ipfans/echo-session"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"github.com/sanshirookazaki/echo-clean/interfaces/controllers"
@@ -52,9 +52,9 @@ func Init() {
 
 	userController := controllers.NewUserController(NewSQLHandler())
 	authController := controllers.NewAuthController(NewSQLHandler())
-	store := session.NewCookieStore([]byte("secret-key"))
-	store.MaxAge(86400)
-	e.Use(session.Sessions("ESESSION", store))
+	//store := session.NewCookieStore([]byte("secret-key"))
+	//store.MaxAge(86400)
+	//e.Use(session.Sessions("ESESSION", store))
 	e.Static("/static", "static")
 	//e.GET("/", authController.Login)
 	//e.GET("/login", authController.Login)
@@ -73,7 +73,9 @@ func Init() {
 	e.GET("/:username/task/history", userController.UserTaskHistory)
 	//e.Logger.Fatal(e.Start(":1323"))
 
-	var store = sessions.NewCookieStore([]byte(os.Getenv("SESSION_KEY")))
+	n := negroni.Classic()
+	store := cookiestore.New([]byte("secret123"))
+	n.Use(sessions.Sessions("my_session", store))
 	r := mux.NewRouter()
 	r.HandleFunc("/login", authController.Login).Methods("GET")
 
@@ -86,7 +88,7 @@ func Init() {
 	//}
 
 	//log.Fatal(srv.ListenAndServe())
-	n := negroni.Classic()
+
 	n.UseHandler(r)
 	n.Run(":3000")
 }
