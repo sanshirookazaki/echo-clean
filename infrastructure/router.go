@@ -1,6 +1,7 @@
 package infrastructure
 
 import (
+	"fmt"
 	"html/template"
 	"io"
 	"net/http"
@@ -8,9 +9,8 @@ import (
 	"github.com/codegangsta/negroni"
 	_ "github.com/go-sql-driver/mysql"
 
-	"github.com/goincremental/negroni-sessions"
-	"github.com/goincremental/negroni-sessions/cookiestore"
 	"github.com/gorilla/mux"
+	"github.com/gorilla/sessions"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"github.com/sanshirookazaki/echo-clean/interfaces/controllers"
@@ -74,8 +74,10 @@ func Init() {
 	//e.Logger.Fatal(e.Start(":1323"))
 
 	n := negroni.Classic()
-	store := cookiestore.New([]byte("secret123"))
-	n.Use(sessions.Sessions("my_session", store))
+	//store := cookiestore.New([]byte("secret123"))
+	store := sessions.NewCookieStore([]byte("secret"))
+	session := sessions.NewSession(store, "secret")
+	fmt.Println(session)
 	r := mux.NewRouter()
 	r.HandleFunc("/login", authController.Login).Methods("GET")
 
