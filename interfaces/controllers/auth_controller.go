@@ -4,6 +4,7 @@ import (
 	"html"
 	"net/http"
 
+	"github.com/gorilla/sessions"
 	session "github.com/ipfans/echo-session"
 	"github.com/labstack/echo"
 	"github.com/sanshirookazaki/echo-clean/domain"
@@ -26,14 +27,17 @@ func NewAuthController(SQLHandler database.SQLHandler) *AuthController {
 	}
 }
 
+var (
+	t     = template.NewTemplate("views/*.html")
+	store = sessions.NewCookieStore([]byte("SESSION_KEY"))
+)
+
 func (controller *AuthController) Login(w http.ResponseWriter, r *http.Request) {
-	t := template.NewTemplate("views/*.html")
+	session, _ := store.Get(r, "session-name")
+	session.Values["foo"] = "bar"
+
 	t.Render(w, "login", "commeon")
 }
-
-//func (controller *AuthController) Login(c echo.Context) error {
-//	return c.Render(http.StatusOK, "login", "ログインしてください")
-//}
 
 func (controller *AuthController) Logout(c echo.Context) error {
 	session := session.Default(c)
