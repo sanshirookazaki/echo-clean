@@ -1,7 +1,6 @@
 package infrastructure
 
 import (
-	"fmt"
 	"html/template"
 	"io"
 	"net/http"
@@ -10,7 +9,6 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 
 	"github.com/gorilla/mux"
-	"github.com/gorilla/sessions"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"github.com/sanshirookazaki/echo-clean/interfaces/controllers"
@@ -75,9 +73,6 @@ func Init() {
 
 	n := negroni.Classic()
 	//store := cookiestore.New([]byte("secret123"))
-	store := sessions.NewCookieStore([]byte("secret"))
-	session := sessions.NewSession(store, "secret")
-	fmt.Println(session)
 	r := mux.NewRouter()
 	r.HandleFunc("/login", authController.Login).Methods("GET")
 
