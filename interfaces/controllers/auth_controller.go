@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"html"
 	"net/http"
 
@@ -33,16 +34,17 @@ var (
 )
 
 func (controller *AuthController) Login(w http.ResponseWriter, r *http.Request) {
-	session, _ := store.Get(r, "session-name")
+	session, _ := store.Get(r, "SESSION_KEY")
 	session.Values["foo"] = "bar"
-
+	fmt.Println(session.Values["foo"])
+	session.Save(r, w)
 	t.Render(w, "login", "commeon")
 }
 
-func (controller *AuthController) Logout(c echo.Context) error {
-	session := session.Default(c)
-	session.Clear()
-	return c.Render(http.StatusOK, "login", "ログインしてください")
+func (controller *AuthController) Logout(w http.ResponseWriter, r *http.Request) {
+	session, _ := store.Get(r, "SESSION_KEY")
+	fmt.Println(session.Values["foo"])
+	t.Render(w, "login", "commeon")
 }
 
 func (controller *AuthController) LoginCheck(c echo.Context) error {
