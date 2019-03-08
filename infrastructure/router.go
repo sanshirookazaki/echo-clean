@@ -60,7 +60,7 @@ func Init() {
 	//e.POST("/logout", authController.Logout)
 	e.GET("/login/new", authController.LoginNewUser)
 	e.POST("/login/new", authController.LoginAddUser)
-	e.GET("/:username/index", userController.UserIndex)
+	//e.GET("/:username/index", userController.UserIndex)
 	e.GET("/:username/task/:id", userController.UserDetailTask)
 	e.GET("/:username/task/add", userController.UserAddTask)
 	e.POST("/:username/task/add", userController.UserAddTaskPost)
@@ -74,8 +74,11 @@ func Init() {
 	n := negroni.Classic()
 	r := mux.NewRouter()
 	r.HandleFunc("/login", authController.Login).Methods("GET")
-	r.HandleFunc("/logout", authController.Logout).Methods("GET")
+	r.HandleFunc("/login", authController.LoginCheck).Methods("POST")
+	r.HandleFunc("/logout", authController.Logout).Methods("POST")
+	r.HandleFunc("/{username}/index", userController.UserIndex).Methods("GET")
 
+	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 	n.UseHandler(r)
 	n.Run(":3000")
 }
