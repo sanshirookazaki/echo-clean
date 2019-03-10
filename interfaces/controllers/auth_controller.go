@@ -6,8 +6,6 @@ import (
 	"net/http"
 
 	"github.com/gorilla/sessions"
-	session "github.com/ipfans/echo-session"
-	"github.com/labstack/echo"
 	"github.com/sanshirookazaki/echo-clean/domain"
 	"github.com/sanshirookazaki/echo-clean/interfaces/database"
 	"github.com/sanshirookazaki/echo-clean/template"
@@ -29,76 +27,76 @@ func NewAuthController(SQLHandler database.SQLHandler) *AuthController {
 }
 
 var (
-	t     = template.NewTemplate("views/*.html")
-	store = sessions.NewCookieStore([]byte("SESSION_KEY"))
+	T     = template.NewTemplate("views/*.html")
+	Store = sessions.NewCookieStore([]byte("SESSION_KEY"))
 )
 
 func (controller *AuthController) Login(w http.ResponseWriter, r *http.Request) {
-	session, _ := store.Get(r, "SESSION_KEY")
+	session, _ := Store.Get(r, "SESSION_KEY")
 	session.Values["foo"] = "bar"
 	fmt.Println(session.Values["foo"])
 	session.Save(r, w)
-	t.Render(w, "login", "commeon")
+	T.Render(w, "login", "commeon")
 }
 
 func (controller *AuthController) Logout(w http.ResponseWriter, r *http.Request) {
-	session, _ := store.Get(r, "SESSION_KEY")
+	session, _ := Store.Get(r, "SESSION_KEY")
 	fmt.Println(session.Values["foo"])
-	t.Render(w, "login", "commeon")
+	T.Render(w, "login", "commeon")
 }
 
-func (controller *AuthController) LoginCheck(c echo.Context) error {
+func (controller *AuthController) LoginCheck(w http.ResponseWriter, r *http.Request) {
+	session, _ := Store.Get(r, "SESSION_KEY")
 	loginform := domain.LoginForm{
-		UserName: c.FormValue("username"),
-		Password: c.FormValue("password"),
+		UserName: r.FormValue("username"),
+		Password: r.FormValue("password"),
 	}
 	username := html.EscapeString(loginform.UserName)
 	password := html.EscapeString(loginform.Password)
 
 	if username == "" && password == "" {
-		return c.Render(http.StatusOK, "login", "ユーザー名とパスワードを入力して下さい。")
+		T.Render(w, "login", "ユーザー名とパスワードを入力して下さい。")
 	} else if username == "" {
-		return c.Render(http.StatusOK, "login", "ユーザー名を入力して下さい。")
+		T.Render(w, "login", "ユーザー名を入力して下さい。")
 	} else if password == "" {
-		return c.Render(http.StatusOK, "login", "パスワードを入力して下さい。")
+		T.Render(w, "login", "パスワードを入力して下さい。")
 	}
 
-	session := session.Default(c)
 	hashLoginPassword := controller.Interactor.GetPassword(username)
 	err := database.PasswordVerify(hashLoginPassword, password)
 	if err != nil {
 		userid := controller.Interactor.GetUserID(username, hashLoginPassword)
-		session.Set("userid", userid)
-		session.Set("password", password)
-		session.Save()
-		return c.Redirect(http.StatusFound, "/"+username+"/index")
+		session.Values["userid"] = userid
+		session.Values["password"] = password
+		session.Save(r, w)
+		http.Redirect(w, r, "/"+username+"/index", 301)
 	} else {
-		return c.Redirect(http.StatusFound, "login")
+		http.Redirect(w, r, "/login", 301)
 	}
 }
 
-func (controller *AuthController) LoginNewUser(c echo.Context) error {
-	return c.Render(http.StatusFound, "loginnew", "ユーザー名とパスワードを入力して下さい。")
+func (controller *AuthController) LoginNewUser(w http.ResponseWriter, r *http.Request) {
+	T.Render(w, "loginnew", "ユーザー名とパスワードを入力して下さい。")
 }
 
-func (controller *AuthController) LoginAddUser(c echo.Context) error {
+func (controller *AuthController) LoginAddUser(w http.ResponseWriter, r *http.Request) {
+	session, _ := Store.Get(r, "SESSION_KEY")
 	loginform := domain.LoginForm{
-		UserName: c.FormValue("username"),
-		Password: c.FormValue("password"),
+		UserName: r.FormValue("username"),
+		Password: r.FormValue("password"),
 	}
 	username := html.EscapeString(loginform.UserName)
 	password := html.EscapeString(loginform.Password)
-	session := session.Default(c)
 	loginname := controller.Interactor.UserUniqueCheck(username)
 	if username == loginname {
-		return c.Render(http.StatusFound, "loginnew", "このユーザー名は既に使われてます。")
+		T.Render(w, "loginnew", "このユーザー名は既に使われてます。")
 	} else if username == "" || password == "" {
-		return c.Render(http.StatusFound, "loginnew", "ユーザー名とパスワードに空白は使えません。")
+		T.Render(w, "loginnew", "ユーザー名とパスワードに空白は使えません。")
 	} else {
 		controller.Interactor.UserAdd(username, password)
 		userid := controller.Interactor.GetUserID(username, password)
-		session.Set("userid", userid)
-		session.Save()
-		return c.Redirect(http.StatusFound, "/"+username+"/index")
+		session.Values["userid"] = userid
+		session.Save(r, w)
+		http.Redirect(w, r, "/"+username+"/index", 301)
 	}
 }
