@@ -5,8 +5,6 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
-	session "github.com/ipfans/echo-session"
-	"github.com/labstack/echo"
 	"github.com/sanshirookazaki/echo-clean/domain"
 	"github.com/sanshirookazaki/echo-clean/interfaces/database"
 	"github.com/sanshirookazaki/echo-clean/usecase"
@@ -62,9 +60,9 @@ func (controller *UserController) UserDetailTask(w http.ResponseWriter, r *http.
 	T.Render(w, "task", u)
 }
 
-func (controller *UserController) UserAddTask(c echo.Context) error {
-	session := session.Default(c)
-	userid := session.Get("userid")
+func (controller *UserController) UserAddTask(w http.ResponseWriter, r *http.Request) {
+	session, _ := Store.Get(r, "SESSION_KEY")
+	userid := session.Values["userid"]
 	username, password := controller.UserInteractor.GetUserNamePassword(userid.(int))
 	tasks := controller.TaskInteractor.GetTaskAll(userid.(int))
 	u := domain.User{
@@ -73,13 +71,13 @@ func (controller *UserController) UserAddTask(c echo.Context) error {
 		Password: password,
 		Tasks:    tasks,
 	}
-	return c.Render(http.StatusOK, "add", u)
+	T.Render(w, "add", u)
 }
 
-func (controller *UserController) UserAddTaskPost(c echo.Context) error {
-	session := session.Default(c)
-	userid := session.Get("userid")
-	task := c.FormValue("task")
+func (controller *UserController) UserAddTaskPost(w http.ResponseWriter, r *http.Request) {
+	session, _ := Store.Get(r, "SESSION_KEY")
+	userid := session.Values["userid"]
+	task := r.FormValue("task")
 	controller.TaskInteractor.AddTask(userid.(int), task)
 	username, password := controller.UserInteractor.GetUserNamePassword(userid.(int))
 	tasks := controller.TaskInteractor.GetTaskAll(userid.(int))
@@ -89,13 +87,13 @@ func (controller *UserController) UserAddTaskPost(c echo.Context) error {
 		Password: password,
 		Tasks:    tasks,
 	}
-	return c.Render(http.StatusOK, "index", u)
+	T.Render(w, "index", u)
 }
 
-func (controller *UserController) UserDeleteTask(c echo.Context) error {
-	session := session.Default(c)
-	userid := session.Get("userid")
-	id, _ := strconv.Atoi(c.FormValue("id"))
+func (controller *UserController) UserDeleteTask(w http.ResponseWriter, r *http.Request) {
+	session, _ := Store.Get(r, "SESSION_KEY")
+	userid := session.Values["userid"]
+	id, _ := strconv.Atoi(r.FormValue("id"))
 	controller.TaskInteractor.DeleteTask(id)
 	username, password := controller.UserInteractor.GetUserNamePassword(userid.(int))
 	tasks := controller.TaskInteractor.GetTaskAll(userid.(int))
@@ -105,13 +103,13 @@ func (controller *UserController) UserDeleteTask(c echo.Context) error {
 		Password: password,
 		Tasks:    tasks,
 	}
-	return c.Render(http.StatusOK, "index", u)
+	T.Render(w, "index", u)
 }
 
-func (controller *UserController) UserFinishTask(c echo.Context) error {
-	session := session.Default(c)
-	userid := session.Get("userid")
-	id, _ := strconv.Atoi(c.FormValue("id"))
+func (controller *UserController) UserFinishTask(w http.ResponseWriter, r *http.Request) {
+	session, _ := Store.Get(r, "SESSION_KEY")
+	userid := session.Values["userid"]
+	id, _ := strconv.Atoi(r.FormValue("id"))
 	controller.TaskInteractor.FinishTask(id)
 	username, password := controller.UserInteractor.GetUserNamePassword(userid.(int))
 	tasks := controller.TaskInteractor.GetTaskAll(userid.(int))
@@ -121,12 +119,12 @@ func (controller *UserController) UserFinishTask(c echo.Context) error {
 		Password: password,
 		Tasks:    tasks,
 	}
-	return c.Render(http.StatusOK, "index", u)
+	T.Render(w, "index", u)
 }
 
-func (controller *UserController) UserTaskHistory(c echo.Context) error {
-	session := session.Default(c)
-	userid := session.Get("userid")
+func (controller *UserController) UserTaskHistory(w http.ResponseWriter, r *http.Request) {
+	session, _ := Store.Get(r, "SESSION_KEY")
+	userid := session.Values["userid"]
 	tasks := controller.TaskInteractor.TaskHistory(userid.(int))
 	username, password := controller.UserInteractor.GetUserNamePassword(userid.(int))
 	u := domain.User{
@@ -135,12 +133,12 @@ func (controller *UserController) UserTaskHistory(c echo.Context) error {
 		Password: password,
 		Tasks:    tasks,
 	}
-	return c.Render(http.StatusOK, "history", u)
+	T.Render(w, "history", u)
 }
 
-func (controller *UserController) UserEditTask(c echo.Context) error {
-	session := session.Default(c)
-	userid := session.Get("userid")
+func (controller *UserController) UserEditTask(w http.ResponseWriter, r *http.Request) {
+	session, _ := Store.Get(r, "SESSION_KEY")
+	userid := session.Values["userid"]
 	username, password := controller.UserInteractor.GetUserNamePassword(userid.(int))
 	tasks := controller.TaskInteractor.GetTaskAll(userid.(int))
 	u := domain.User{
@@ -149,14 +147,15 @@ func (controller *UserController) UserEditTask(c echo.Context) error {
 		Password: password,
 		Tasks:    tasks,
 	}
-	return c.Render(http.StatusOK, "edit", u)
+	T.Render(w, "edit", u)
 }
 
-func (controller *UserController) UserEditTaskPost(c echo.Context) error {
-	session := session.Default(c)
-	userid := session.Get("userid")
-	id, _ := strconv.Atoi(c.Param("id"))
-	task := c.FormValue("task")
+func (controller *UserController) UserEditTaskPost(w http.ResponseWriter, r *http.Request) {
+	session, _ := Store.Get(r, "SESSION_KEY")
+	userid := session.Values["userid"]
+	vars := mux.Vars(r)
+	id, _ := strconv.Atoi(vars["id"])
+	task := r.FormValue("task")
 	controller.TaskInteractor.EditTask(task, id)
 	username, password := controller.UserInteractor.GetUserNamePassword(userid.(int))
 	tasks := controller.TaskInteractor.GetTaskAll(userid.(int))
@@ -166,5 +165,5 @@ func (controller *UserController) UserEditTaskPost(c echo.Context) error {
 		Password: password,
 		Tasks:    tasks,
 	}
-	return c.Render(http.StatusOK, "index", u)
+	T.Render(w, "index", u)
 }
