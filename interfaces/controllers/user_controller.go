@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/gorilla/mux"
 	session "github.com/ipfans/echo-session"
 	"github.com/labstack/echo"
 	"github.com/sanshirookazaki/echo-clean/domain"
@@ -31,9 +32,9 @@ func NewUserController(SQLHandler database.SQLHandler) *UserController {
 	}
 }
 
-func (controller *UserController) UserIndex(c echo.Context) error {
-	session := session.Default(c)
-	userid := session.Get("userid")
+func (controller *UserController) UserIndex(w http.ResponseWriter, r *http.Request) {
+	session, _ := Store.Get(r, "SESSION_KEY")
+	userid := session.Values["userid"]
 	username, password := controller.UserInteractor.GetUserNamePassword(userid.(int))
 	tasks := controller.TaskInteractor.GetTaskAll(userid.(int))
 	u := domain.User{
@@ -42,13 +43,14 @@ func (controller *UserController) UserIndex(c echo.Context) error {
 		Password: password,
 		Tasks:    tasks,
 	}
-	return c.Render(http.StatusOK, "index", u)
+	T.Render(w, "index", u)
 }
 
-func (controller *UserController) UserDetailTask(c echo.Context) error {
-	session := session.Default(c)
-	userid := session.Get("userid")
-	id, _ := strconv.Atoi(c.Param("id"))
+func (controller *UserController) UserDetailTask(w http.ResponseWriter, r *http.Request) {
+	session, _ := Store.Get(r, "SESSION_KEY")
+	userid := session.Values["userid"]
+	vars := mux.Vars(r)
+	id, _ := strconv.Atoi(vars["id"])
 	username, password := controller.UserInteractor.GetUserNamePassword(userid.(int))
 	tasks := controller.TaskInteractor.GetTask(id)
 	u := domain.User{
@@ -57,7 +59,7 @@ func (controller *UserController) UserDetailTask(c echo.Context) error {
 		Password: password,
 		Tasks:    tasks,
 	}
-	return c.Render(http.StatusOK, "task", u)
+	T.Render(w, "task", u)
 }
 
 func (controller *UserController) UserAddTask(c echo.Context) error {

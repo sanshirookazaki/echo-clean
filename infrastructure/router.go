@@ -61,7 +61,7 @@ func Init() {
 	//e.GET("/login/new", authController.LoginNewUser)
 	//e.POST("/login/new", authController.LoginAddUser)
 	//e.GET("/:username/index", userController.UserIndex)
-	e.GET("/:username/task/:id", userController.UserDetailTask)
+	//e.GET("/:username/task/:id", userController.UserDetailTask)
 	e.GET("/:username/task/add", userController.UserAddTask)
 	e.POST("/:username/task/add", userController.UserAddTaskPost)
 	e.POST("/:username/task/delete", userController.UserDeleteTask)
@@ -79,6 +79,7 @@ func Init() {
 	r.HandleFunc("/{username}/index", userController.UserIndex).Methods("GET")
 	r.HandleFunc("/login/new", authController.LoginNewUser).Methods("GET")
 	r.HandleFunc("/login/new", authController.LoginAddUser).Methods("POST")
+	r.HandleFunc("/{username}/task/{id}", userController.UserDetailTask).Methods("GET")
 
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 	n.UseHandler(r)
