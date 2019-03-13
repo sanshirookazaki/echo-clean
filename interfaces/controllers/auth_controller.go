@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"html"
 	"net/http"
 
@@ -32,16 +31,13 @@ var (
 )
 
 func (controller *AuthController) Login(w http.ResponseWriter, r *http.Request) {
-	session, _ := Store.Get(r, "SESSION_KEY")
-	session.Values["foo"] = "bar"
-	fmt.Println(session.Values["foo"])
-	session.Save(r, w)
 	T.Render(w, "login", "commeon")
 }
 
 func (controller *AuthController) Logout(w http.ResponseWriter, r *http.Request) {
 	session, _ := Store.Get(r, "SESSION_KEY")
-	fmt.Println(session.Values["foo"])
+	session.Options.MaxAge = -1
+	session.Save(r, w)
 	T.Render(w, "login", "commeon")
 }
 
@@ -64,7 +60,7 @@ func (controller *AuthController) LoginCheck(w http.ResponseWriter, r *http.Requ
 
 	hashLoginPassword := controller.Interactor.GetPassword(username)
 	err := database.PasswordVerify(hashLoginPassword, password)
-	if err != nil {
+	if err == nil {
 		userid := controller.Interactor.GetUserID(username, hashLoginPassword)
 		session.Values["userid"] = userid
 		session.Values["password"] = password
@@ -87,8 +83,8 @@ func (controller *AuthController) LoginAddUser(w http.ResponseWriter, r *http.Re
 	}
 	username := html.EscapeString(loginform.UserName)
 	password := html.EscapeString(loginform.Password)
-	loginname := controller.Interactor.UserUniqueCheck(username)
-	if username == loginname {
+	addusername := controller.Interactor.UserUniqueCheck(username)
+	if username == addusername {
 		T.Render(w, "loginnew", "このユーザー名は既に使われてます。")
 	} else if username == "" || password == "" {
 		T.Render(w, "loginnew", "ユーザー名とパスワードに空白は使えません。")
@@ -96,6 +92,7 @@ func (controller *AuthController) LoginAddUser(w http.ResponseWriter, r *http.Re
 		controller.Interactor.UserAdd(username, password)
 		userid := controller.Interactor.GetUserID(username, password)
 		session.Values["userid"] = userid
+		session.Values["password"] = password
 		session.Save(r, w)
 		http.Redirect(w, r, "/"+username+"/index", 301)
 	}
