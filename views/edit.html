@@ -7,7 +7,7 @@
   <link href="/static/style.css" rel="stylesheet">
 </head>
 <body>
-{{template "header"}}
+{{template "header" .}}
 {{$username := .UserName}}
 <div id="page">
 {{with index .Tasks 0}}

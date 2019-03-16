@@ -9,7 +9,7 @@
   <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 </head>
 <body>
-{{template "header"}}
+{{template "header" . }}
 <div id="page">
 {{range .Tasks}}
 <h3>{{.Task}}</h3>

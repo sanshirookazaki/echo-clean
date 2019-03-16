@@ -9,7 +9,7 @@
   <link href="/static/style.css" rel="stylesheet">
     </head>
     <body>
-    {{template "header"}}
+    {{template "header" . }}
     <div id="page">
     {{ range .Tasks }}
     <h2>{{.Task}}</h2>
