@@ -21,7 +21,7 @@ func Init() {
 	r.HandleFunc("/{username}/index", userController.UserIndex).Methods("GET")
 	r.HandleFunc("/login/new", authController.LoginNewUser).Methods("GET")
 	r.HandleFunc("/login/new", authController.LoginAddUser).Methods("POST")
-	r.HandleFunc("/{username}/task/{id}", userController.UserDetailTask).Methods("GET")
+	r.HandleFunc("/{username}/task/detail/{id}", userController.UserDetailTask).Methods("GET")
 	r.HandleFunc("/{username}/task/add", userController.UserAddTask).Methods("GET")
 	r.HandleFunc("/{username}/task/add", userController.UserAddTaskPost).Methods("POST")
 	r.HandleFunc("/{username}/task/delete", userController.UserDeleteTask).Methods("POST")
