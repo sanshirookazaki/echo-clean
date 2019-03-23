@@ -3,7 +3,9 @@ package infrastructure
 import (
 	"database/sql"
 
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
+	//_ "github.com/go-sql-driver/mysql"
 	"github.com/sanshirookazaki/echo-clean/interfaces/database"
 )
 
@@ -14,12 +16,13 @@ type SQLHandler struct {
 
 // NewSQLHandler .
 func NewSQLHandler() *SQLHandler {
-	conn, err := sql.Open("mysql", "root:root@tcp(127.0.0.1:3306)/task")
+	db, err := gorm.Open("mysql", "root:root@tcp(127.0.0.1:3306)/task?charset=utf8&parseTime=True&loc=Local")
 	if err != nil {
 		panic(err.Error)
 	}
+	defer db.close
 	sqlHandler := new(SQLHandler)
-	sqlHandler.Conn = conn
+	sqlHandler.Conn = db
 	return sqlHandler
 }
 
