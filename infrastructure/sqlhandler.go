@@ -11,7 +11,7 @@ import (
 
 // SQLHandler .
 type SQLHandler struct {
-	Conn *sql.DB
+	Conn *gorm.DB
 }
 
 // NewSQLHandler .
