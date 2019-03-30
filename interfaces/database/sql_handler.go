@@ -6,4 +6,5 @@ type SQLHandler interface {
 	Where(interface{}, ...interface{}) SQLHandler
 	Scan(interface{}) SQLHandler
 	Create(interface{}) SQLHandler
+	Save(interface{}) SQLHandler
 }

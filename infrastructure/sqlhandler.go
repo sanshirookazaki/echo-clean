@@ -44,3 +44,8 @@ func (handler *SQLHandler) Scan(dest interface{}) *SQLHandler {
 func (handler *SQLHandler) Create(value interface{}) *SQLHandler {
 	return handler.Conn.Create(value)
 }
+
+func (handler *SQLHandler) Save(value interface{}) *SQLHandler {
+	return handler.Conn.Save(value)
+}
+
