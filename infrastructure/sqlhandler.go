@@ -1,11 +1,12 @@
 package infrastructure
 
 import (
-	"database/sql"
+	//"database/sql"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	//_ "github.com/go-sql-driver/mysql"
+	"github.com/sanshirookazaki/echo-clean/interfaces/database"
 )
 
 // SQLHandler .
@@ -14,7 +15,7 @@ type SQLHandler struct {
 }
 
 // NewSQLHandler .
-func NewSQLHandler() *SQLHandler {
+func NewSQLHandler() *database.SQLHandler {
 	db, err := gorm.Open("mysql", "root:root@tcp(127.0.0.1:3306)/task?charset=utf8&parseTime=True&loc=Local")
 	if err != nil {
 		panic(err.Error)
@@ -49,3 +50,14 @@ func (handler *SQLHandler) Save(value interface{}) *SQLHandler {
 	return handler.Conn.Save(value)
 }
 
+func (handler *SQLHandler) Delete(value interface{}, where ...interface{}) *SQLHandler {
+	return handler.Conn.Save(value, where...)
+}
+
+func (handler *SQLHandler) Update(attrs ...interface{}) *SQLHandler {
+	return handler.Conn.Update(attrs...)
+}
+
+func (handler *SQLHandler) Model(value interface{}) *SQLHandler {
+	return handler.Conn.Model(value)
+}
