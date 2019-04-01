@@ -32,6 +32,7 @@ func NewUserController(SQLHandler database.SQLHandler) *UserController {
 
 func (controller *UserController) UserIndex(w http.ResponseWriter, r *http.Request) {
 	session, _ := Store.Get(r, "SESSION_KEY")
+	session.Save(r, w)
 	userid := session.Values["userid"]
 	username, password := controller.UserInteractor.GetUserNamePassword(userid.(int))
 	tasks := controller.TaskInteractor.GetTaskAll(userid.(int))

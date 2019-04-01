@@ -13,14 +13,14 @@ type AuthRepository struct {
 
 func (repo *AuthRepository) GetUserID(username, password string) int {
 	var u domain.User
-	repo.Table("users").Select("userid").Where("username = \"" + username + "\" and password = \"" + password + "\"").Scan(&u)
+	repo.Table("users").Select("userid").Where("username = ? and password = ?", username, password).Scan(&u)
 	userid := u.UserID
 	return userid
 }
 
 func (repo *AuthRepository) GetPassword(username string) string {
 	var u domain.User
-	repo.Table("users").Select("password").Where("username = \"" + username + "\"").Scan(&u)
+	repo.Table("users").Select("password").Where("username = ?", username).Scan(&u)
 	password := u.Password
 	return password
 }
@@ -48,7 +48,7 @@ func (repo *AuthRepository) UserAdd(username, password string) {
 
 	u := domain.User{UserName: username, Password: password}
 	repo.Table("users").Create(&u)
-	repo.save(&u)
+	repo.Save(&u)
 }
 
 func PasswordHash(password string) (string, error) {
