@@ -15,7 +15,7 @@ type SQLHandler struct {
 }
 
 // NewSQLHandler .
-func NewSQLHandler() *database.SQLHandler {
+func NewSQLHandler() *SQLHandler {
 	db, err := gorm.Open("mysql", "root:root@tcp(127.0.0.1:3306)/task?charset=utf8&parseTime=True&loc=Local")
 	if err != nil {
 		panic(err.Error)
