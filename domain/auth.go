@@ -2,6 +2,6 @@ package domain
 
 // LoginForm .
 type LoginForm struct {
-	UserName string
+	Username string
 	Password string
 }

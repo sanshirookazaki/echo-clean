@@ -2,8 +2,8 @@ package domain
 
 // User .
 type User struct {
-	UserID   int
-	UserName string
+	Userid   int
+	Username string
 	Password string
 	Tasks
 }

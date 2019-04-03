@@ -3,7 +3,7 @@ package domain
 // Task .
 type Task struct {
 	ID     int
-	UserID int
+	Userid int
 	Task   string
 	Status int
 }
