@@ -1,5 +1,5 @@
 {{define "index"}}
-{{$username := .UserName}}
+{{$username := .Username}}
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +38,7 @@
     el: '#add',
     methods: {
       addpage: function() {
-        window.location.href = "/{{.UserName}}/task/add";
+        window.location.href = "/{{$username}}/task/add";
       }
     }
   })
@@ -47,7 +47,7 @@
     el: '#history',
     methods: {
       historypage: function() {
-        window.location.href = "/{{.UserName}}/task/history";
+        window.location.href = "/{{$username}}/task/history";
       }
     }
   })
