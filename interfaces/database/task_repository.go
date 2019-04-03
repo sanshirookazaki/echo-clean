@@ -12,7 +12,7 @@ type TaskRepository struct {
 
 func (repo *TaskRepository) GetTaskAll(userid int) (tasks domain.Tasks) {
 	var t domain.Tasks
-	repo.Table("tasks").Select("*").Where("Status = 0 and userid =" + strconv.Itoa(userid)).Scan(&t)
+	repo.Table("tasks").Select("*").Where("Status = 0 and userid = ?", strconv.Itoa(userid)).Scan(&t)
 	return t
 }
 
@@ -29,7 +29,7 @@ func (repo *TaskRepository) TaskHistory(userid int) (tasks domain.Tasks) {
 }
 
 func (repo *TaskRepository) AddTask(userid int, task string) {
-	t := domain.Task{UserID: userid, Task: task, Status: 0}
+	t := domain.Task{Userid: userid, Task: task, Status: 0}
 	repo.Table("tasks").Create(&t)
 	repo.Save(&t)
 }

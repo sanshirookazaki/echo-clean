@@ -11,15 +11,21 @@ type AuthRepository struct {
 	SQLHandler
 }
 
+type Pass struct {
+	Password string
+	Userid   int
+}
+
 func (repo *AuthRepository) GetUserID(username, password string) int {
-	var u domain.User
+	var u Pass
 	repo.Table("users").Select("userid").Where("username = ? and password = ?", username, password).Scan(&u)
-	userid := u.UserID
+	userid := u.Userid
 	return userid
 }
 
 func (repo *AuthRepository) GetPassword(username string) string {
-	var u domain.User
+	//var u domain.User
+	var u Pass
 	repo.Table("users").Select("password").Where("username = ?", username).Scan(&u)
 	password := u.Password
 	return password
@@ -28,14 +34,14 @@ func (repo *AuthRepository) GetPassword(username string) string {
 func (repo *AuthRepository) GetUserName(password string) string {
 	var u domain.User
 	repo.Table("users").Select("username").Where("password = \"" + password + "\"").Scan(&u)
-	username := u.UserName
+	username := u.Username
 	return username
 }
 
 func (repo *AuthRepository) UserUniqueCheck(username string) string {
 	var u domain.User
 	repo.Table("users").Select("username").Where("username = \"" + username + "\"").Scan(&u)
-	existUser := u.UserName
+	existUser := u.Username
 	return existUser
 }
 
@@ -46,7 +52,7 @@ func (repo *AuthRepository) UserAdd(username, password string) {
 	}
 	//_, err = repo.Query("INSERT INTO users (username, password) VALUES ( \"" + username + "\" , \"" + password + "\" )")
 
-	u := domain.User{UserName: username, Password: password}
+	u := domain.User{Username: username, Password: password}
 	repo.Table("users").Create(&u)
 	repo.Save(&u)
 }

@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"html"
 	"net/http"
 
@@ -44,10 +45,10 @@ func (controller *AuthController) Logout(w http.ResponseWriter, r *http.Request)
 func (controller *AuthController) LoginCheck(w http.ResponseWriter, r *http.Request) {
 	session, _ := Store.Get(r, "SESSION_KEY")
 	loginform := domain.LoginForm{
-		UserName: r.FormValue("username"),
+		Username: r.FormValue("username"),
 		Password: r.FormValue("password"),
 	}
-	username := html.EscapeString(loginform.UserName)
+	username := html.EscapeString(loginform.Username)
 	password := html.EscapeString(loginform.Password)
 
 	if username == "" && password == "" {
@@ -59,8 +60,8 @@ func (controller *AuthController) LoginCheck(w http.ResponseWriter, r *http.Requ
 	}
 
 	hashLoginPassword := controller.Interactor.GetPassword(username)
-	err := database.PasswordVerify(hashLoginPassword, password)
-	if err == nil {
+	fmt.Println(hashLoginPassword, "hassssss")
+	if database.PasswordVerify(hashLoginPassword, password) == nil {
 		userid := controller.Interactor.GetUserID(username, hashLoginPassword)
 		session.Values["userid"] = userid
 		session.Values["password"] = password
@@ -78,10 +79,10 @@ func (controller *AuthController) LoginNewUser(w http.ResponseWriter, r *http.Re
 func (controller *AuthController) LoginAddUser(w http.ResponseWriter, r *http.Request) {
 	session, _ := Store.Get(r, "SESSION_KEY")
 	loginform := domain.LoginForm{
-		UserName: r.FormValue("username"),
+		Username: r.FormValue("username"),
 		Password: r.FormValue("password"),
 	}
-	username := html.EscapeString(loginform.UserName)
+	username := html.EscapeString(loginform.Username)
 	password := html.EscapeString(loginform.Password)
 	addusername := controller.Interactor.UserUniqueCheck(username)
 	if username == addusername {

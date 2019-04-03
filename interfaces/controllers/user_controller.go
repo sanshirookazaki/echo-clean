@@ -34,11 +34,12 @@ func (controller *UserController) UserIndex(w http.ResponseWriter, r *http.Reque
 	session, _ := Store.Get(r, "SESSION_KEY")
 	session.Save(r, w)
 	userid := session.Values["userid"]
-	username, password := controller.UserInteractor.GetUserNamePassword(userid.(int))
-	tasks := controller.TaskInteractor.GetTaskAll(userid.(int))
+	uid := userid.(int)
+	username, password := controller.UserInteractor.GetUserNamePassword(uid)
+	tasks := controller.TaskInteractor.GetTaskAll(uid)
 	u := domain.User{
-		UserID:   userid.(int),
-		UserName: username,
+		Userid:   uid,
+		Username: username,
 		Password: password,
 		Tasks:    tasks,
 	}
@@ -53,8 +54,8 @@ func (controller *UserController) UserDetailTask(w http.ResponseWriter, r *http.
 	username, password := controller.UserInteractor.GetUserNamePassword(userid.(int))
 	tasks := controller.TaskInteractor.GetTask(id)
 	u := domain.User{
-		UserID:   userid.(int),
-		UserName: username,
+		Userid:   userid.(int),
+		Username: username,
 		Password: password,
 		Tasks:    tasks,
 	}
@@ -67,8 +68,8 @@ func (controller *UserController) UserAddTask(w http.ResponseWriter, r *http.Req
 	username, password := controller.UserInteractor.GetUserNamePassword(userid.(int))
 	tasks := controller.TaskInteractor.GetTaskAll(userid.(int))
 	u := domain.User{
-		UserID:   userid.(int),
-		UserName: username,
+		Userid:   userid.(int),
+		Username: username,
 		Password: password,
 		Tasks:    tasks,
 	}
@@ -83,8 +84,8 @@ func (controller *UserController) UserAddTaskPost(w http.ResponseWriter, r *http
 	username, password := controller.UserInteractor.GetUserNamePassword(userid.(int))
 	tasks := controller.TaskInteractor.GetTaskAll(userid.(int))
 	u := domain.User{
-		UserID:   userid.(int),
-		UserName: username,
+		Userid:   userid.(int),
+		Username: username,
 		Password: password,
 		Tasks:    tasks,
 	}
@@ -99,8 +100,8 @@ func (controller *UserController) UserDeleteTask(w http.ResponseWriter, r *http.
 	username, password := controller.UserInteractor.GetUserNamePassword(userid.(int))
 	tasks := controller.TaskInteractor.GetTaskAll(userid.(int))
 	u := domain.User{
-		UserID:   userid.(int),
-		UserName: username,
+		Userid:   userid.(int),
+		Username: username,
 		Password: password,
 		Tasks:    tasks,
 	}
@@ -115,8 +116,8 @@ func (controller *UserController) UserFinishTask(w http.ResponseWriter, r *http.
 	username, password := controller.UserInteractor.GetUserNamePassword(userid.(int))
 	tasks := controller.TaskInteractor.GetTaskAll(userid.(int))
 	u := domain.User{
-		UserID:   userid.(int),
-		UserName: username,
+		Userid:   userid.(int),
+		Username: username,
 		Password: password,
 		Tasks:    tasks,
 	}
@@ -129,8 +130,8 @@ func (controller *UserController) UserTaskHistory(w http.ResponseWriter, r *http
 	tasks := controller.TaskInteractor.TaskHistory(userid.(int))
 	username, password := controller.UserInteractor.GetUserNamePassword(userid.(int))
 	u := domain.User{
-		UserID:   userid.(int),
-		UserName: username,
+		Userid:   userid.(int),
+		Username: username,
 		Password: password,
 		Tasks:    tasks,
 	}
@@ -143,8 +144,8 @@ func (controller *UserController) UserEditTask(w http.ResponseWriter, r *http.Re
 	username, password := controller.UserInteractor.GetUserNamePassword(userid.(int))
 	tasks := controller.TaskInteractor.GetTaskAll(userid.(int))
 	u := domain.User{
-		UserID:   userid.(int),
-		UserName: username,
+		Userid:   userid.(int),
+		Username: username,
 		Password: password,
 		Tasks:    tasks,
 	}
@@ -161,8 +162,8 @@ func (controller *UserController) UserEditTaskPost(w http.ResponseWriter, r *htt
 	username, password := controller.UserInteractor.GetUserNamePassword(userid.(int))
 	tasks := controller.TaskInteractor.GetTaskAll(userid.(int))
 	u := domain.User{
-		UserID:   userid.(int),
-		UserName: username,
+		Userid:   userid.(int),
+		Username: username,
 		Password: password,
 		Tasks:    tasks,
 	}
