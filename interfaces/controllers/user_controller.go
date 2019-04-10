@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"net/http"
 	"strconv"
 
@@ -43,7 +44,8 @@ func (controller *UserController) UserIndex(w http.ResponseWriter, r *http.Reque
 		Password: password,
 		Tasks:    tasks,
 	}
-	T.Render(w, "index", u)
+	//T.Render(w, "index", u)
+	json.NewEncoder(w).Encode(u)
 }
 
 func (controller *UserController) UserDetailTask(w http.ResponseWriter, r *http.Request) {
@@ -59,7 +61,8 @@ func (controller *UserController) UserDetailTask(w http.ResponseWriter, r *http.
 		Password: password,
 		Tasks:    tasks,
 	}
-	T.Render(w, "task", u)
+	//T.Render(w, "task", u)
+	json.NewEncoder(w).Encode(u)
 }
 
 func (controller *UserController) UserAddTask(w http.ResponseWriter, r *http.Request) {
@@ -73,7 +76,8 @@ func (controller *UserController) UserAddTask(w http.ResponseWriter, r *http.Req
 		Password: password,
 		Tasks:    tasks,
 	}
-	T.Render(w, "add", u)
+	//T.Render(w, "add", u)
+	json.NewEncoder(w).Encode(u)
 }
 
 func (controller *UserController) UserAddTaskPost(w http.ResponseWriter, r *http.Request) {
@@ -89,7 +93,8 @@ func (controller *UserController) UserAddTaskPost(w http.ResponseWriter, r *http
 		Password: password,
 		Tasks:    tasks,
 	}
-	T.Render(w, "index", u)
+	//T.Render(w, "index", u)
+	json.NewEncoder(w).Encode(u)
 }
 
 func (controller *UserController) UserDeleteTask(w http.ResponseWriter, r *http.Request) {
@@ -105,7 +110,8 @@ func (controller *UserController) UserDeleteTask(w http.ResponseWriter, r *http.
 		Password: password,
 		Tasks:    tasks,
 	}
-	T.Render(w, "index", u)
+	//T.Render(w, "index", u)
+	json.NewEncoder(w).Encode(u)
 }
 
 func (controller *UserController) UserFinishTask(w http.ResponseWriter, r *http.Request) {
@@ -121,7 +127,8 @@ func (controller *UserController) UserFinishTask(w http.ResponseWriter, r *http.
 		Password: password,
 		Tasks:    tasks,
 	}
-	T.Render(w, "index", u)
+	//T.Render(w, "index", u)
+	json.NewEncoder(w).Encode(u)
 }
 
 func (controller *UserController) UserTaskHistory(w http.ResponseWriter, r *http.Request) {
@@ -135,7 +142,8 @@ func (controller *UserController) UserTaskHistory(w http.ResponseWriter, r *http
 		Password: password,
 		Tasks:    tasks,
 	}
-	T.Render(w, "history", u)
+	//T.Render(w, "history", u)
+	json.NewEncoder(w).Encode(u)
 }
 
 func (controller *UserController) UserEditTask(w http.ResponseWriter, r *http.Request) {
@@ -149,7 +157,8 @@ func (controller *UserController) UserEditTask(w http.ResponseWriter, r *http.Re
 		Password: password,
 		Tasks:    tasks,
 	}
-	T.Render(w, "edit", u)
+	//T.Render(w, "edit", u)
+	json.NewEncoder(w).Encode(u)
 }
 
 func (controller *UserController) UserEditTaskPost(w http.ResponseWriter, r *http.Request) {
@@ -167,5 +176,6 @@ func (controller *UserController) UserEditTaskPost(w http.ResponseWriter, r *htt
 		Password: password,
 		Tasks:    tasks,
 	}
-	T.Render(w, "index", u)
+	//T.Render(w, "index", u)
+	json.NewEncoder(w).Encode(u)
 }
