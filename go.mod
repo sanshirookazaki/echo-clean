@@ -7,9 +7,12 @@ require (
 	github.com/garyburd/redigo v1.6.0 // indirect
 	github.com/go-sql-driver/mysql v1.4.1
 	github.com/goincremental/negroni-sessions v0.0.0-20171223143234-40b49004abee // indirect
+	github.com/golang/protobuf v1.3.1 // indirect
 	github.com/gorilla/mux v1.7.0
 	github.com/gorilla/sessions v1.1.3
 	github.com/ipfans/echo-session v3.2.0+incompatible // indirect
+	github.com/jinzhu/gorm v1.9.2
+	github.com/jinzhu/inflection v0.0.0-20180308033659-04140366298a // indirect
 	github.com/labstack/echo v3.3.10+incompatible // indirect
 	github.com/labstack/echo-contrib v0.0.0-20190220224852-7fa08ffe9442 // indirect
 	github.com/lib/pq v1.0.0 // indirect
