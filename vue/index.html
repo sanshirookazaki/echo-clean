@@ -2,6 +2,7 @@
 <title>Vue sample</title>
 <style> /* any css */
 </style>
+<head></head>
 <div id="app">
     <nav>
         <router-link to="/top">Top Page</router-link>
@@ -13,10 +14,10 @@
 <script src="https://unpkg.com/vue@2.5.17"></script>
 <script src="https://unpkg.com/vue-router@3.0.1"></script>
 
-<script src="text/x-template" id="user-list">
+<script type="text/x-template" id="user-list">
     <div>
         <div class="loading" v-if="loading">loading...</div>
-        <div v-id="error" class="error">
+        <div v-if="error" class="error">
             {{ error }}
         </div>
         <div v-for="user in users" :key="user.id">
@@ -26,8 +27,52 @@
 </script>
 
 <script>
+
+    var getUsers = function (callback) {
+        setTimeout(function (){
+            callback(null, [
+                {
+                    id: 1,
+                    name: 'Takahashi'
+                },
+                {
+                    id: 2,
+                    name: 'Kagawa'
+                }
+            ])
+        }, 1000)
+    }
+
     var UserList = {
-      template: '#user-list',
+        template: '#user-list',
+        data: function() {
+            return {
+                loading: false,
+                users: function() { return [] },
+                error: null
+            }
+        },
+
+        created: function() {
+            this.fetchData()
+        },
+
+        watch: {
+            '$route': 'fetchData'
+        },
+        methods: {
+            fetchData: function() {
+                this.loading = true
+                getUsers((function (err, users) {
+                    this.loading = false
+                    if (err) {
+                        this.error = err.toString()
+                    } else {
+                        this.users = users
+                    }
+                }).bind(this))
+            }
+        }
     }
 
     var router = new VueRouter({
@@ -50,15 +95,5 @@
     var app = new Vue({
         router: router
     }).$mount('#app')
-
-    var getUsers = function (callback) {
-        setTimeout(function (){
-            callback(null, [
-                {
-                    id: 1,
-                    name: 'Takahashi'
-                }
-            ])
-        })
-    }
+    
 </script>
