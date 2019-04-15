@@ -29,15 +29,15 @@
 <script>
 
     var getUsers = function (callback) {
-        setTimeout(function (){
+        setTimeout(function () {
             callback(null, [
                 {
                     id: 1,
-                    name: 'Takahashi'
+                    name: "Takahashi"
                 },
                 {
                     id: 2,
-                    name: 'Kagawa'
+                    name: "Kagawa"
                 }
             ])
         }, 1000)
@@ -85,9 +85,7 @@
           },
           {
               path: '/users',
-              component: {
-                  template: UserList
-              }
+              component: UserList
           }
       ]
     })
