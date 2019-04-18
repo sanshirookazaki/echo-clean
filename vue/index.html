@@ -7,6 +7,9 @@
     <nav>
         <router-link to="/top">Top Page</router-link>
         <router-link to="/users">User Index Page</router-link>
+        <router-link to="/users/new">New User Create</router-link>
+        <router-link to="/login" v-show="!Auth.loggedIn()">Login</router-link>
+        <router-link to="/logout" v-show="Auth.loggedIn()">Logout</router-link>
     </nav>
     <router-view></router-view>
 </div>
@@ -63,7 +66,45 @@
     </div>
 </script>
 
+<script type="text/x-template" id="login">
+    <div>
+        <h2>Login</h2>
+        <p v-if="$route.query.redirect">
+            Please Login
+        </p>
+        <form @submit.prevent="login">
+            <label><input v-model="email" placeholder="email"></label>
+            <label><input v-model="pass" placeholder="password" type="password"></label><br>
+        <button type="submit">Login</button>    
+        <p v-if="error" class="error"> Miss </p>
+    </div>
+</script>
+
+
 <script>
+
+    var Login = {
+        template: '#login',
+        data: function() {
+            return {
+                email: 'vue@example.com',
+                pass: '',
+                error: false
+            }
+        },
+        methods: {
+            login: function() {
+                Auth.login(this.email, this.pass, (function (loggedIn) {
+                   if (!loggedIn) {
+                       this.error = true
+                   } else {
+                       this.$router.replace(this.$route.query.redirect || '/')
+                   }
+                }).bind(this))
+            }
+        } 
+
+    }
 
     var Auth = {
         login: function(email, pass, cb) {
