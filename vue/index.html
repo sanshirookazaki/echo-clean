@@ -7,7 +7,7 @@
     <nav>
         <router-link to="/top">Top Page</router-link>
         <router-link to="/users">User Index Page</router-link>
-        <router-link to="/users/new">New User Create</router-link>
+        <router-link to="/users/new?redirect=ture">New User Create</router-link>
         <router-link to="/login" v-show="!Auth.loggedIn()">Login</router-link>
         <router-link to="/logout" v-show="Auth.loggedIn()">Logout</router-link>
     </nav>
@@ -77,6 +77,7 @@
             <label><input v-model="pass" placeholder="password" type="password"></label><br>
         <button type="submit">Login</button>    
         <p v-if="error" class="error"> Miss </p>
+        </form>
     </div>
 </script>
 
@@ -103,7 +104,6 @@
                 }).bind(this))
             }
         } 
-
     }
 
     var Auth = {
