@@ -1,15 +1,19 @@
 <!DOCTYPE html>
-<title>Vue sample</title>
+<html>
 <style> /* any css */
 </style>
-<head></head>
+<head>
+<meta charset="UTF-8">
+<title>Vue sample</title>
+</head>
+<body>
 <div id="app">
     <nav>
         <router-link to="/top">Top Page</router-link>
         <router-link to="/users">User Index Page</router-link>
         <router-link to="/users/new?redirect=ture">New User Create</router-link>
-        <router-link to="/login" v-show="!Auth.loggedIn()">Login</router-link>
-        <router-link to="/logout" v-show="Auth.loggedIn()">Logout</router-link>
+        <router-link to="/login" v-show="!Auth.loggedIn()">Login</router-link> 
+        <router-link to="/logout" v-show="Auth.loggedIn()">Logout</router-link> 
     </nav>
     <router-view></router-view>
 </div>
@@ -318,7 +322,12 @@
     })
 
     var app = new Vue({
+        data: {
+            Auth: Auth
+        },
         router: router
     }).$mount('#app')
     
 </script>
+</body>
+</html>
