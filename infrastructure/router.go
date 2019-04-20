@@ -31,6 +31,7 @@ func Init() {
 	r.HandleFunc("/{username}/task/history", userController.UserTaskHistory).Methods("GET")
 
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
+	r.PathPrefix("/vue/").Handler(http.StripPrefix("/vue/", http.FileServer(http.Dir("./vue"))))
 	n.UseHandler(r)
 	n.Run(":3000")
 }
