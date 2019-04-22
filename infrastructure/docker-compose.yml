@@ -25,7 +25,7 @@ services:
       - PMA_USER=root
       - PMA_PASSWORD=root
     ports:
-       - 8080:80
+       - 8088:80
 
   node:
     build: ./node
@@ -34,3 +34,7 @@ services:
     hostname: node
     tty: true
     privileged: true
+    ports:
+      - 8080:8080
+    volumes:
+      - "../vue:/vue" 
