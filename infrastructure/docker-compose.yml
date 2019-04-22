@@ -26,3 +26,11 @@ services:
       - PMA_PASSWORD=root
     ports:
        - 8080:80
+
+  node:
+    build: ./node
+    image: infrastructure_node 
+    container_name: node 
+    hostname: node
+    tty: true
+    privileged: true
