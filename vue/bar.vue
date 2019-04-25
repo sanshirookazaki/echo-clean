@@ -2,20 +2,26 @@
   <div class="bar">
     <h1 class="header"> Bar component</h1>
     <p>This is Bar component</p>
+    <foo class="header"/>
   </div>
 </template>
 
-<style>
-  p {text-decoration: underline;}
-</style>
+<script>
+import Foo from './foo'
+export default {
+  components: {
+    Foo
+  }
+}
+</script>
 
 <style scoped>
-  .foo {
-      border: solid 1px green;
+  .bar {
+      border: solid 1px red;
       margin: 4px;
       padding: 4px;
   }
   .header {
-      font-size: 150%;
+      font-size: 125%;
   }
 </style>
