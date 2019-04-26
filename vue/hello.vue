@@ -11,5 +11,5 @@ export default {
 </script>
 
 <style>
-.message {color: '#42b983'}
+.message {color: #42b983;}
 </style>
