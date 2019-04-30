@@ -36,7 +36,8 @@ const store = new Vuex.Store({
 
 
     nextTaskId: 3,
-    nextTaskId: 4,
+    nextLabelId: 4,
+
     },
 
     mutations: {
