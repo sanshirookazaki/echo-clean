@@ -2,8 +2,8 @@
     <div>
         <h2>task lists</h2>
         <ul>
-            <li v-for="task in tasks" v-bind:key="task.id" v-on:change="toggleTaskStatus(task)">
-                    <input type="checkbox" v-bind:checked="task.done">
+            <li v-for="task in tasks" v-bind:key="task.id">
+                    <input type="checkbox" v-on:change="toggleTaskStatus(task)" v-bind:checked="task.done">
                     {{task.name}}
                     -
                     <span v-for="id in task.labelIds" v-bind:key="id">
@@ -19,7 +19,8 @@
         <h2>Label List</h2>
         <ul>
             <li v-for="label in labels" v-bind:key="label.id">
-                <input type="checkbox" v-bind:value="label.id" v-model="newTaskLabelIds">
+                <input type="checkbox" v-bind:value="label.id" 
+                v-model="newTaskLabelIds">
                     {{label.text}}
             </li>
         </ul>
