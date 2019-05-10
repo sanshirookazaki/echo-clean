@@ -43,7 +43,7 @@ const store = new Vuex.Store({
     },
 
     getters: {
-        filterTasks (state) {
+        filteredTasks (state) {
             if (!state.filter) {
                 return state.tasks
             }
