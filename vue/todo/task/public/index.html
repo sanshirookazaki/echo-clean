@@ -11,7 +11,18 @@
     <noscript>
       <strong>We're sorry but task doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
-    <div id="app"></div>
+    <div id="app">
+      <router-link to="/login">Login Page</router-link>
+      <router-view></router-view>
+    </div>
+    <script type="text/x-template" id="login">
+      <div>
+          <h2>Login</h2>
+      </div>
+    </script>
     <!-- built files will be auto injected -->
+    <script src="https://unpkg.com/vue@2.5.18"></script>
+    <script src="https://unpkg.com/vue-router@3.0.1"></script>
+    <script type="text/javascript" src="/router.js"></script>
   </body>
 </html>

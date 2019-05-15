@@ -6,3 +6,11 @@ var router = new VueRouter({
         }
     ]
   })
+
+var Login = {
+    template: '#login'
+}
+
+var app = new Vue({
+    router: router
+}).$mount('#app')
