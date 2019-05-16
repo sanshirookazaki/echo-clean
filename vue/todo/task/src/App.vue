@@ -10,7 +10,6 @@ import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'app',
-  router: router,
   components: {
     HelloWorld
   }
